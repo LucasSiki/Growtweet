@@ -1,28 +1,32 @@
 import { v4 as useUuid} from 'uuid';
 import Tweet from './Tweet';
+import tweets from '../data/tweets';
 
 class User{
     private id: string;
-    private tweets: Tweet[];
+    private following: User[] = []
 
-    constructor (private name: string,private email: string, private username: string, private password: number,){
+    constructor (private name: string,private email: string, private username: string, private password: number){
         this.id = useUuid();
-        this.tweets = [];
     }
 
-    public getUserDetails(){
+    public getDetails(){
         return{
             id: this.id,
             name: this.name,
             email: this.email,
             username: this.username,
             password: this.password,
-            tweets: this.tweets
         };    
     }
     
     public addTweet(tweet: Tweet){
-        this.tweets.push(tweet);
+        tweet.setMyTweetId(this.getDetails().id);
+        tweets.push(tweet);
+    }
+
+    public getFollowing(){
+        return this.following
     }
 }
 
